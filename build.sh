@@ -14,7 +14,11 @@ if ! git rev-parse --verify "$RELEASE" >/dev/null 2>&1; then
     exit 1
 fi
 
-D=$(mktemp -d)
+if test "$(uname)" == 'Darwin'; then
+    D=$(mktemp -d -t samltracer)
+else
+    D=$(mktemp -d)
+fi
 
 git archive --format tar "$RELEASE" | (cd "$D"; tar xv)
 
